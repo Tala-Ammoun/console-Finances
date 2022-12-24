@@ -95,13 +95,13 @@ console.log("Total Months: " + totalMonths)
 //net total
 let netTotalArray = []
 let netTotal = 0 //to initialize a variable is to assign it an initial value. 
-                 //Initialization must be done before the variable is used, otherwise it will hold a value of "undefined" or "null".
-for (let i = 0; i < totalMonths; i++){
+//Initialization must be done before the variable is used, otherwise it will hold a value of "undefined" or "null".
+for (let i = 0; i < totalMonths; i++) {
     let innerArrayNumbers = finances[i][1] //targeting the numbers in each sub-array
     netTotal += innerArrayNumbers // this is the total profit for each period
     netTotalArray.push(netTotal)
 }
-let netTotalNumb =  netTotalArray[netTotalArray.length - 1] //this targets the last element of the netTotalArray, which is the sum for the entire period. Another way is let netTotalNumb =  netTotalArray.slice(-1)[0] 
+let netTotalNumb = netTotalArray[netTotalArray.length - 1] //this targets the last element of the netTotalArray, which is the sum for the entire period. Another way is let netTotalNumb =  netTotalArray.slice(-1)[0] 
 console.log("Total " + "$" + netTotalNumb)
 
 //Average change for the entire period
@@ -126,17 +126,16 @@ console.log("Average change: " + "$" + parseFloat(averageChange).toFixed(2)) //u
 
 //The greatest increase in profits (date and amount) over the entire period.
 let increaseArray = []
-for (let a = 0; a < changesArray.length; a++) {
+for (let a = 0 ; a < totalMonths; a++) {
+    let increaseDate = finances[a][0]; //this targets all the dates in finances
     if (a >= 1) {
-        let previous = finances[a - 1][1]
-        let increaseDate = finances[a][0] //this targets all the dates in finances
-        if (changesArray[a] / previous > 0) { // the [a] targets all the elements within the changesArray. We are targeting all +ve numbers ==> increases.
-            let increaseConstant = changesArray[a] / previous //this is the operation to calculate the increase for each period
-            increaseArray.push([increaseDate, increaseConstant]) // we store the increases and their corresponding dates in a new array.
-        }
-    }
+    let previous = finances[a - 1][1]
+    for (let b = 0; b < 1; b++) {
+    if (changesArray[b] / previous > 0) { // the [a] targets all the elements within the changesArray. We are targeting all +ve numbers ==> increases.
+        let increaseConstant = changesArray[b] / previous //this is the operation to calculate the increase for each period
+        increaseArray.push([increaseDate, increaseConstant]) // we store the increases and their corresponding dates in a new array.
+    }}}
 }
-console.log(increaseArray)
 
 let greatestIncrease = increaseArray[0][1] // we are targeting the 2nd element in the first array. To initialize something is to give it an initial value.
 let greatestIncDate = increaseArray[0][0] // we are targeting the 1st element in the first array. 
@@ -144,25 +143,28 @@ for (let c = 0; c < increaseArray.length; c++) { //everytime the loop iterates o
     if (greatestIncrease < increaseArray[c][1]) { //if the 2nd value it iterates over is bigger than the previous value it iterated over
         greatestIncrease = increaseArray[c][1] //let the second value be the maximum. Once the loop finds the maximum value with nothing higher, the condition becomes false and the loop stops
         greatestIncDate = increaseArray[c][0] //let the date be the one of the same array as the maximum value.
-    }}
+    }
+}
 
 for (let i = 0; i < finances.length; i++) {
     let financesArray = finances[i][0] //we target the dates in all the finances arrays
     let targetArray = financesArray.includes(greatestIncDate) //we target the array that includes greatestIncDate 
-    if (targetArray == true){ //once array is found
+    if (targetArray == true) { //once array is found
         //console.log (i) // display array number
         console.log("Greatest Increase in Profits: " + finances[i][0] + " (" + "$" + finances[i][1] + ")")
-    }}
+    }
+}
 
 // The greatest decrease in losses (date and amount) over the entire period.
 let decreaseArray = []
-for (let a = 0; a < changesArray.length; a++) {
+for (let a = 0; a < totalMonths; a++) {
+    let decreaseDate = finances[a][0] //this targets all the dates in finances. 
     if (a >= 1) {
-        let previous = finances[a - 1][1]
-        let decreaseDate = finances[a][0] //this targets all the dates in finances. 
-        if (changesArray[a] / previous < 0) { // the [a] targets all the elements within the changesArray. We are targeting all -ve numbers ==> decreases.
-            let decreaseConstant = changesArray[a] / previous //this is the operation to calculate the decrease for each period
-            decreaseArray.push([decreaseDate, decreaseConstant])
+    let previous = finances[a - 1][1]
+    for (let b = 0; b < 1; b++) {
+    if (changesArray[b] / previous < 0) { // the [a] targets all the elements within the changesArray. We are targeting all -ve numbers ==> decreases.
+            let decreaseConstant = changesArray[b] / previous //this is the operation to calculate the decrease for each period
+            decreaseArray.push([decreaseDate, decreaseConstant])}
         }
     }
 }
@@ -173,13 +175,14 @@ for (let c = 0; c < decreaseArray.length; c++) { //everytime the loop iterates o
     if (greatestDecrease > decreaseArray[c][1]) { //if the 2nd value it iterates over is less than the previous value it iterated over
         greatestDecrease = decreaseArray[c][1] //let the second value be the minimum. Once the loop finds the minimum value with nothing lower, the condition becomes false and the loop stops
         greatestDecDate = decreaseArray[c][0] //let the date be the one of the minimum value.
-    } 
+    }
 }
 
 for (let i = 0; i < finances.length; i++) {
     let financesArray = finances[i][0] //we are targeting the 1st element/the dates in all the arrays within finances 
     let targetArray = financesArray.includes(greatestDecDate) //we target the array that includes greatestDecDate 
-    if (targetArray == true){ //once array is found
+    if (targetArray == true) { //once array is found
         //console.log (i) // display array number
         console.log("Greatest Decrease in Profits: " + finances[i][0] + " (" + "$" + finances[i][1] + ")")
-    }}
+    }
+}
